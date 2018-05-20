@@ -64,10 +64,12 @@ const USERS = [
 //  4. if matching user found, add the user object to the request object
 //     (aka, `req.user = matchedUser`)
 function gateKeeper(req, res, next) {
-  const headerValue = req.get('x-username-and-password');
-  const parsedHeader = queryString.parse(headerValue);
-  const user = parsedHeader.user || null;
-  const pass = parsedHeader.pass || null; 
+  const {user, pass} = Object.assign(
+    {user: null, pass: null}, queryString.parse(req.get('x-username-and-password')));
+  // const headerValue = req.get('x-username-and-password');
+  // const parsedHeader = queryString.parse(headerValue);
+  // const user = parsedHeader.user || null;
+  // const pass = parsedHeader.pass || null; 
   
  
    req.user = USERS.find((usr, index) => usr.userName === user && usr.password === pass);
